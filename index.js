@@ -1,14 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const taskRoutes = require('./routes/taskRoutes');
-
 dotenv.config();
+
+const taskRoutes = require('./routes/taskRoutes');
+const authRoutes = require('./routes/authRoutes');
+
+const swaggerSetup = require('./swagger');
 const app = express();
 
-app.use(express.json());
+swaggerSetup(app);
 
-app.use('/api/tasks', taskRoutes); // Tüm task istekleri bu route'a yönlendirilir
+app.use(express.json());
+app.use('/api/tasks', taskRoutes);
+app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
